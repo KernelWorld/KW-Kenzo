@@ -364,17 +364,6 @@ struct related_thread_group {
 
 extern int group_will_fit(struct sched_cluster *cluster,
 		 struct related_thread_group *grp, u64 demand);
-struct hmp_power_cost {
-	unsigned int freq;
-	unsigned int *power_cost;
-	u64 demand;
-};
-
-struct hmp_power_cost_table {
-	int len;
-	struct hmp_power_cost *map;
-};
-
 #endif
 
 /* CFS-related fields in a runqueue */
@@ -684,8 +673,6 @@ struct rq {
 	u64 cur_irqload;
 	u64 avg_irqload;
 	u64 irqload_ts;
-
-	struct hmp_power_cost_table pwr_cost_table;
 
 #ifdef CONFIG_SCHED_FREQ_INPUT
 	unsigned int old_busy_time;
