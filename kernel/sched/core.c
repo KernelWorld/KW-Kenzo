@@ -9970,11 +9970,6 @@ void __init sched_init(void)
 		rq->wakeup_energy = 0;
 #ifdef CONFIG_SCHED_HMP
 		cpumask_set_cpu(i, &rq->freq_domain_cpumask);
-		rq->cur_freq = 1;
-		rq->max_freq = 1;
-		rq->min_freq = 1;
-		rq->max_possible_freq = 1;
-		rq->max_possible_capacity = 0;
 		rq->hmp_stats.cumulative_runnable_avg = 0;
 		rq->window_start = 0;
 		rq->hmp_stats.nr_small_tasks = rq->hmp_stats.nr_big_tasks = 0;
