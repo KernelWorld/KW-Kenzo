@@ -63,7 +63,6 @@ modules.builtin
 include/config
 include/generated
 arch/*/include/generated
-dtbToolCM
 build.sh
 
 # stgit generated dirs
