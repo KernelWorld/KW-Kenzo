@@ -426,8 +426,6 @@ static void wakeup_source_activate(struct wakeup_source *ws)
 {
 	unsigned int cec;
 
-<<<<<<< HEAD
-=======
 	if (!enable_si_ws && !strcmp(ws->name, "sensor_ind"))
 		return;
 
@@ -446,7 +444,6 @@ static void wakeup_source_activate(struct wakeup_source *ws)
 	if (!enable_bluedroid_timer_ws && !strcmp(ws->name, "bluedroid_timer"))
 		return;
 
->>>>>>> ee673b0... wakeup: add toggle for bluedroid_timer wakelock
 	/*
 	 * active wakeup source should bring the system
 	 * out of PM_SUSPEND_FREEZE state
