@@ -70,7 +70,11 @@
 			linux,reserve-contiguous-region;
 			linux,reserve-region;
 			linux,remove-completely;
+<<<<<<< HEAD
 			reg = <0x0 0x86c00000 0x0 0x05600000>;
+=======
+			reg = <0x0 0x86C00000 0x0 0x06A00000>;
+>>>>>>> e5c1414bf5773bde1262c13d54964ac23bfaa927
 			label = "modem_mem";
 		};
 
@@ -78,7 +82,11 @@
 			linux,reserve-contiguous-region;
 			linux,reserve-region;
 			linux,remove-completely;
+<<<<<<< HEAD
 			reg = <0x0 0x8c200000 0x0 0x1700000>;
+=======
+			reg = <0x0 0x8D600000 0x0 0x1700000>;
+>>>>>>> e5c1414bf5773bde1262c13d54964ac23bfaa927
 			label = "reloc_mem";
 		};
 
@@ -1549,6 +1557,7 @@
 		qcom,msm-bus,name = "qseecom-noc";
 		qcom,disk-encrypt-pipe-pair = <2>;
 		qcom,support-fde;
+		qcom,appsbl-qseecom-support;
 		qcom,msm-bus,num-cases = <4>;
 		qcom,msm-bus,num-paths = <1>;
 		qcom,support-bus-scaling;
@@ -1802,7 +1811,11 @@
 		qcom,sw-power-collapse;
 		qcom,reset-clock-control;
 		qcom,regulator-scaling;
+<<<<<<< HEAD
 		qcom,max-hw-load = <979200>; /* 3840 x 2176 @ 30 fps */
+=======
+		qcom,max-hw-load = <1011840>; /* 3840 x 2176 @ 30 fps + 3840 x 2176 @ 1 fps */
+>>>>>>> e5c1414bf5773bde1262c13d54964ac23bfaa927
 		qcom,dcvs-min-load = <734400>; /* 1920 x 1088 @ 90fps */
 		qcom,dcvs-min-mbperframe = <32400>; /* 3840 x 2160 */
 
@@ -2172,7 +2185,7 @@
 	dcc: dcc@b3000 {
 		compatible = "qcom,dcc";
 		reg = <0xb3000 0x1000>,
-		      <0xb4000 0x2000>;
+		      <0xb4000 0x800>;
 		reg-names = "dcc-base", "dcc-ram-base";
 
 		clocks = <&clock_gcc clk_gcc_dcc_clk>;
@@ -2281,11 +2294,19 @@
 				"msm-dai-q6-dev.12292", "msm-dai-q6-dev.12293";
 		asoc-codec = <&stub_codec>;
 		asoc-codec-names = "msm-stub-codec.1";
+<<<<<<< HEAD
 		/*qcom,max-aux-codec = <2>;
 		qcom,aux-codec = "wsa881x.20170211", "wsa881x.20170212",
 				 "wsa881x.21170213", "wsa881x.21170214";
 		qcom,aux-codec-prefix = "SpkrRight", "SpkrLeft",
 					"SpkrRight", "SpkrLeft";*/
+=======
+		qcom,max-aux-codec = <2>;
+		qcom,aux-codec = "wsa881x.20170211", "wsa881x.20170212",
+				 "wsa881x.21170213", "wsa881x.21170214";
+		qcom,aux-codec-prefix = "SpkrLeft", "SpkrRight",
+					"SpkrLeft", "SpkrRight";
+>>>>>>> e5c1414bf5773bde1262c13d54964ac23bfaa927
 	};
 
 	wcd9xxx_intc: wcd9xxx-irq {
@@ -2679,6 +2700,14 @@
 		qcom,ce-opp-freq = <100000000>;
 	};
 
+<<<<<<< HEAD
+=======
+	qcom,cnss_sdio {
+		compatible = "qcom,cnss_sdio";
+		vdd-wlan-supply = <&rome_vreg>;
+		vdd-wlan-io-supply = <&pm8950_l5>;
+	};
+>>>>>>> e5c1414bf5773bde1262c13d54964ac23bfaa927
 };
 
 #include "msm-pm8950-rpm-regulator.dtsi"
@@ -2813,11 +2842,14 @@
 		qcom,cdc-slim-ifd-elemental-addr = [00 00 A0 01 17 02];
 		qcom,cdc-dmic-sample-rate = <4800000>;
 		qcom,cdc-mad-dmic-rate = <600000>;
+<<<<<<< HEAD
 
 		clock-names = "wcd_pmi_clk",
 				"wcd_ap_clk";
 		clocks = <&clock_audio clk_audio_pmi_clk>,
 				<&clock_audio clk_audio_ap_clk1>;
+=======
+>>>>>>> e5c1414bf5773bde1262c13d54964ac23bfaa927
 
 		qcom,wcd-rst-gpio-node = <&wcd_rst_gpio>;
 	};

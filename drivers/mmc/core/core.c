@@ -971,13 +971,13 @@ EXPORT_SYMBOL(mmc_cmdq_discard_queue);
 /**
  *	mmc_cmdq_post_req - post process of a completed request
  *	@host: host instance
- *	@mrq: the request to be processed
+ *	@tag: the request tag.
  *	@err: non-zero is error, success otherwise
  */
-void mmc_cmdq_post_req(struct mmc_host *host, struct mmc_request *mrq, int err)
+void mmc_cmdq_post_req(struct mmc_host *host, int tag, int err)
 {
 	if (likely(host->cmdq_ops->post_req))
-		host->cmdq_ops->post_req(host, mrq, err);
+		host->cmdq_ops->post_req(host, tag, err);
 }
 EXPORT_SYMBOL(mmc_cmdq_post_req);
 
@@ -3140,6 +3140,7 @@ EXPORT_SYMBOL(mmc_can_reset);
 static int mmc_do_hw_reset(struct mmc_host *host, int check)
 {
 	struct mmc_card *card = host->card;
+	int ret;
 
 	if (!host->bus_ops->power_restore)
 		return -EOPNOTSUPP;
@@ -3187,9 +3188,28 @@ static int mmc_do_hw_reset(struct mmc_host *host, int check)
 	mmc_set_ios(host);
 
 	mmc_host_clk_release(host);
+	mmc_claim_host(host);
+	ret = host->bus_ops->power_restore(host);
+	mmc_release_host(host);
+	return ret;
+}
 
+/*
+ * mmc_cmdq_hw_reset: Helper API for doing
+ * reset_all of host and reinitializing card.
+ * This must be called with mmc_claim_host
+ * acquired by the caller.
+ */
+int mmc_cmdq_hw_reset(struct mmc_host *host)
+{
+	if (!host->bus_ops->power_restore)
+		return -EOPNOTSUPP;
+
+	mmc_power_cycle(host);
+	mmc_select_voltage(host, host->ocr);
 	return host->bus_ops->power_restore(host);
 }
+EXPORT_SYMBOL(mmc_cmdq_hw_reset);
 
 int mmc_hw_reset(struct mmc_host *host)
 {
@@ -3923,7 +3943,9 @@ int mmc_power_restore_host(struct mmc_host *host)
 	}
 
 	mmc_power_up(host);
+	mmc_claim_host(host);
 	ret = host->bus_ops->power_restore(host);
+	mmc_release_host(host);
 
 	mmc_bus_put(host);
 
@@ -4013,60 +4035,6 @@ int mmc_flush_cache(struct mmc_card *card)
 	return err;
 }
 EXPORT_SYMBOL(mmc_flush_cache);
-
-/*
- * Turn the cache ON/OFF.
- * Turning the cache OFF shall trigger flushing of the data
- * to the non-volatile storage.
- * This function should be called with host claimed
- */
-int mmc_cache_ctrl(struct mmc_host *host, u8 enable)
-{
-	struct mmc_card *card = host->card;
-	unsigned int timeout;
-	int err = 0, rc;
-
-	BUG_ON(!card);
-	timeout = card->ext_csd.generic_cmd6_time;
-
-	if (!(host->caps2 & MMC_CAP2_CACHE_CTRL) ||
-			mmc_card_is_removable(host) ||
-			(card->quirks & MMC_QUIRK_CACHE_DISABLE))
-		return err;
-
-	if (card && mmc_card_mmc(card) &&
-			(card->ext_csd.cache_size > 0)) {
-		enable = !!enable;
-
-		if (card->ext_csd.cache_ctrl ^ enable) {
-			if (!enable)
-				timeout = MMC_FLUSH_REQ_TIMEOUT_MS;
-
-			err = mmc_switch_ignore_timeout(card,
-					EXT_CSD_CMD_SET_NORMAL,
-					EXT_CSD_CACHE_CTRL, enable, timeout);
-
-			if (err == -ETIMEDOUT && !enable) {
-				pr_err("%s:cache disable operation timeout\n",
-						mmc_hostname(card->host));
-				rc = mmc_interrupt_hpi(card);
-				if (rc)
-					pr_err("%s: mmc_interrupt_hpi() failed (%d)\n",
-							mmc_hostname(host), rc);
-			} else if (err) {
-				pr_err("%s: cache %s error %d\n",
-						mmc_hostname(card->host),
-						enable ? "on" : "off",
-						err);
-			} else {
-				card->ext_csd.cache_ctrl = enable;
-			}
-		}
-	}
-
-	return err;
-}
-EXPORT_SYMBOL(mmc_cache_ctrl);
 
 #ifdef CONFIG_PM
 

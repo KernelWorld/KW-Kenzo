@@ -1016,6 +1016,14 @@ submit_request:
 
 static void deconfigure_qcrypto(void)
 {
+<<<<<<< HEAD
+=======
+	if (req_page_pool) {
+		mempool_destroy(req_page_pool);
+		req_page_pool = NULL;
+	}
+
+>>>>>>> e5c1414bf5773bde1262c13d54964ac23bfaa927
 	if (req_scatterlist_pool) {
 		mempool_destroy(req_scatterlist_pool);
 		req_scatterlist_pool = NULL;
@@ -1050,6 +1058,7 @@ static void req_crypt_dtr(struct dm_target *ti)
 {
 	DMDEBUG("dm-req-crypt Destructor.\n");
 
+<<<<<<< HEAD
 	if (req_page_pool) {
 		mempool_destroy(req_page_pool);
 		req_page_pool = NULL;
@@ -1058,6 +1067,12 @@ static void req_crypt_dtr(struct dm_target *ti)
 		mempool_destroy(req_io_pool);
 		req_io_pool = NULL;
 	}
+=======
+	if (req_io_pool) {
+		mempool_destroy(req_io_pool);
+		req_io_pool = NULL;
+	}
+>>>>>>> e5c1414bf5773bde1262c13d54964ac23bfaa927
 
 	if (encryption_mode == DM_REQ_CRYPT_ENCRYPTION_MODE_TRANSPARENT) {
 		kfree(ice_settings);
@@ -1091,6 +1106,10 @@ static int configure_qcrypto(void)
 	if (IS_ERR(tfm)) {
 		DMERR("%s ablkcipher tfm allocation failed : error\n",
 						 __func__);
+<<<<<<< HEAD
+=======
+		tfm = NULL;
+>>>>>>> e5c1414bf5773bde1262c13d54964ac23bfaa927
 		goto exit_err;
 	}
 
@@ -1178,7 +1197,21 @@ static int configure_qcrypto(void)
 	}
 	req_scatterlist_pool = mempool_create_slab_pool(MIN_IOS,
 					_req_dm_scatterlist_pool);
+<<<<<<< HEAD
 	BUG_ON(!req_scatterlist_pool);
+=======
+	if (!req_scatterlist_pool) {
+		DMERR("%s req_scatterlist_pool is not allocated\n", __func__);
+		err = -ENOMEM;
+		goto exit_err;
+	}
+
+	req_page_pool = mempool_create_page_pool(MIN_POOL_PAGES, 0);
+	if (!req_page_pool) {
+		DMERR("%s req_page_pool not allocated\n", __func__);
+		goto exit_err;
+	}
+>>>>>>> e5c1414bf5773bde1262c13d54964ac23bfaa927
 
 	err = 0;
 
@@ -1291,13 +1324,13 @@ static int req_crypt_ctr(struct dm_target *ti, unsigned int argc, char **argv)
 	}
 
 	req_io_pool = mempool_create_slab_pool(MIN_IOS, _req_crypt_io_pool);
-	BUG_ON(!req_io_pool);
 	if (!req_io_pool) {
 		DMERR("%s req_io_pool not allocated\n", __func__);
-		err =  DM_REQ_CRYPT_ERROR;
+		err = -ENOMEM;
 		goto ctr_exit;
 	}
 
+<<<<<<< HEAD
 	req_page_pool = mempool_create_page_pool(MIN_POOL_PAGES, 0);
 	if (!req_page_pool) {
 		DMERR("%s req_page_pool not allocated\n", __func__);
@@ -1306,6 +1339,8 @@ static int req_crypt_ctr(struct dm_target *ti, unsigned int argc, char **argv)
 	}
 
 
+=======
+>>>>>>> e5c1414bf5773bde1262c13d54964ac23bfaa927
 	/*
 	 * If underlying device supports flush, mapped target should
 	 * also allow it

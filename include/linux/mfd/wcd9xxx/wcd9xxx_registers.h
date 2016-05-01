@@ -335,5 +335,8 @@
 #define WCD9XXX_HPH_R_EN				(0x6D6)
 #define WCD9XXX_HPH_REFBUFF_UHQA_CTL			(0x6DD)
 #define WCD9XXX_CLASSH_CTRL_VCL_2                       (0x69B)
+<<<<<<< HEAD
 #define WCD9XXX_CLASSH_CTRL_CCL_1                       (0x69C)
+=======
+>>>>>>> e5c1414bf5773bde1262c13d54964ac23bfaa927
 #endif

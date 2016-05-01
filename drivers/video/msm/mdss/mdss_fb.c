@@ -1519,19 +1519,32 @@ static int mdss_fb_blank_unblank(struct msm_fb_data_type *mfd)
 		if (!mfd->bl_updated) {
 			mfd->bl_updated = 1;
 			/*
-			 * If in AD calibration mode then frameworks would not
-			 * be allowed to update backlight hence post unblank
+			 * 1.) If in AD calibration mode then frameworks would
+			 * not be allowed to update backlight hence post unblank
 			 * the backlight would remain 0 (0 is set in blank).
 			 * Hence resetting back to calibration mode value
+			 *
+			 * 2.) If the panel is recovering from ESD attack, then
+			 * the frameworks might not set the backlight post
+			 * unblank, hence the backlight might remain zero. Set
+			 * the backlight in such cases to the unset_bl_level
+			 * value which will be stored prior to ESD recovery
+			 * during blank.
 			 */
 			if (IS_CALIB_MODE_BL(mfd))
 				mdss_fb_set_backlight(mfd, mfd->calib_mode_bl);
+<<<<<<< HEAD
 			else if (!mfd->panel_info->mipi.post_init_delay || cur_panel_dead) {
 				if (esd_backlight) {
 					mdss_fb_set_backlight(mfd, mfd->unset_bl_level);
 					esd_backlight = 0;
 				}
 			}
+=======
+			else if (!mfd->panel_info->mipi.post_init_delay ||
+				cur_panel_dead)
+				mdss_fb_set_backlight(mfd, mfd->unset_bl_level);
+>>>>>>> e5c1414bf5773bde1262c13d54964ac23bfaa927
 		}
 		mutex_unlock(&mfd->bl_lock);
 	}

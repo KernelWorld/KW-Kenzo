@@ -69,3 +69,7 @@ obj-$(CONFIG_QCOM_LIQUID_DOCK)	+= qcom_liquid_dock.o
 obj-y				+= qcom/
 obj-$(CONFIG_USB_EXT_TYPE_C_PERICOM)	+= type-c-pericom.o
 obj-$(CONFIG_USB_EXT_TYPE_C_TI)		+= type-c-ti.o
+<<<<<<< HEAD
+=======
+obj-$(CONFIG_UID_CPUTIME) 	+= uid_cputime.o
+>>>>>>> e5c1414bf5773bde1262c13d54964ac23bfaa927

@@ -357,10 +357,17 @@ int msm895x_wsa881x_init(struct snd_soc_dapm_context *dapm)
 	struct snd_soc_card *card = dapm->codec->card;
 	struct msm8952_asoc_mach_data *pdata = snd_soc_card_get_drvdata(card);
 	struct msm895x_auxcodec_prefix_map codec_prefix_map[MAX_AUX_CODECS] = {
+<<<<<<< HEAD
 	{ "wsa881x.20170211", "SpkrRight" },
 	{ "wsa881x.20170212", "SpkrLeft" },
 	{ "wsa881x.21170213", "SpkrRight" },
 	{ "wsa881x.21170214", "SpkrLeft" } };
+=======
+	{ "wsa881x.20170211", "SpkrLeft" },
+	{ "wsa881x.20170212", "SpkrRight" },
+	{ "wsa881x.21170213", "SpkrLeft" },
+	{ "wsa881x.21170214", "SpkrRight" } };
+>>>>>>> e5c1414bf5773bde1262c13d54964ac23bfaa927
 	u8 i;
 
 	if (!dapm->codec->name) {
@@ -2123,8 +2130,16 @@ int msm_audrx_init(struct snd_soc_pcm_runtime *rtd)
 		 */
 		if (aux_dev)
 			if (!strcmp(aux_dev->codec_name, WSA8810_NAME_1) ||
+<<<<<<< HEAD
 				!strcmp(aux_dev->codec_name, WSA8810_NAME_2))
 				tasha_set_spkr_mode(codec, SPKR_MODE_1);
+=======
+				!strcmp(aux_dev->codec_name, WSA8810_NAME_2)) {
+				tasha_set_spkr_mode(codec, SPKR_MODE_1);
+				tasha_set_spkr_gain_offset(rtd->codec,
+							RX_GAIN_OFFSET_M1P5_DB);
+			}
+>>>>>>> e5c1414bf5773bde1262c13d54964ac23bfaa927
 	}
 
 	snd_soc_dapm_enable_pin(dapm, "Lineout_1 amp");

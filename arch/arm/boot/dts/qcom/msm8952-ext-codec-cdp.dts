@@ -95,7 +95,7 @@
 			"us_eu_gpio_act";
 		pinctrl-0 = <&cross_conn_det_sus>;
 		pinctrl-1 = <&cross_conn_det_act>;
-		qcom,cdc-us-euro-gpios = <&msm_gpio 144 0>;
+		qcom,cdc-us-euro-gpios = <&msm_gpio 63 0>;
 
 		qcom,msm-mbhc-hphl-swh = <0>;
 		qcom,msm-mbhc-gnd-swh = <0>;
@@ -142,8 +142,13 @@
 		qcom,max-aux-codec = <2>;
 		qcom,aux-codec = "wsa881x.20170211", "wsa881x.20170212",
 				 "wsa881x.21170213", "wsa881x.21170214";
+<<<<<<< HEAD
 		qcom,aux-codec-prefix = "SpkrRight", "SpkrLeft",
 					"SpkrRight", "SpkrLeft";
+=======
+		qcom,aux-codec-prefix = "SpkrLeft", "SpkrRight",
+					"SpkrLeft", "SpkrRight";
+>>>>>>> e5c1414bf5773bde1262c13d54964ac23bfaa927
 	};
 
 	sound-9330 {
@@ -395,8 +400,11 @@
 		qcom,cdc-slim-ifd-elemental-addr = [00 00 A0 01 17 02];
 		qcom,cdc-dmic-sample-rate = <4800000>;
 		qcom,cdc-mad-dmic-rate = <600000>;
+<<<<<<< HEAD
 
 		qcom,wcd-rst-gpio-node = <&wcd_rst_gpio>;
+=======
+>>>>>>> e5c1414bf5773bde1262c13d54964ac23bfaa927
 
 		clock-names = "wcd_clk";
 		clocks = <&clock_audio clk_audio_pmi_clk>;

@@ -3404,7 +3404,12 @@ static void pp_update_hist_lut(char __iomem *addr,
 		pa_dither_data = ENHIST_DITHER_EN | ENHIST_DITHER_OFFSET_EN;
 		pa_dither_data |= ENHIST_DITHER_DEFAULT_STRENGTH <<
 						ENHIST_DITHER_STRENGTH_SHIFT;
+<<<<<<< HEAD
 		writel_relaxed(pa_dither_data, offset_pa_dither);
+=======
+		if (pp_is_pa_v1_7())
+			writel_relaxed(pa_dither_data, offset_pa_dither);
+>>>>>>> e5c1414bf5773bde1262c13d54964ac23bfaa927
 	}
 
 	/* swap */

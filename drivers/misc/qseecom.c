@@ -79,6 +79,7 @@
 #define SCM_MDTP_CIPHER_DIP		0x01
 
 #define RPMB_SERVICE			0x2000
+#define SSD_SERVICE			0x3000
 
 #define QSEECOM_SEND_CMD_CRYPTO_TIMEOUT	2000
 #define QSEECOM_LOAD_APP_CRYPTO_TIMEOUT	2000
@@ -261,6 +262,14 @@ static struct qseecom_key_id_usage_desc key_id_array[] = {
 
 	{
 		.desc = "Per File Encryption",
+	},
+
+	{
+		.desc = "UFS ICE Full Disk Encryption",
+	},
+
+	{
+		.desc = "SDCC ICE Full Disk Encryption",
 	},
 };
 
@@ -1433,7 +1442,7 @@ static int __qseecom_process_incomplete_cmd(struct qseecom_dev_handle *data,
 					ptr_svc->sb_virt, ptr_svc->sb_length,
 						ION_IOC_CLEAN_INV_CACHES);
 
-		if (lstnr == RPMB_SERVICE)
+		if ((lstnr == RPMB_SERVICE) || (lstnr == SSD_SERVICE))
 			__qseecom_enable_clk(CLK_QSEE);
 
 		ret = qseecom_scm_call(SCM_SVC_TZSCHEDULER, 1,
@@ -1443,7 +1452,7 @@ static int __qseecom_process_incomplete_cmd(struct qseecom_dev_handle *data,
 		if (ret) {
 			pr_err("scm_call() failed with err: %d (app_id = %d)\n",
 				ret, data->client.app_id);
-			if (lstnr == RPMB_SERVICE)
+			if ((lstnr == RPMB_SERVICE) || (lstnr == SSD_SERVICE))
 				__qseecom_disable_clk(CLK_QSEE);
 			return ret;
 		}
@@ -1453,7 +1462,7 @@ static int __qseecom_process_incomplete_cmd(struct qseecom_dev_handle *data,
 				resp->result, data->client.app_id, lstnr);
 			ret = -EINVAL;
 		}
-		if (lstnr == RPMB_SERVICE)
+		if ((lstnr == RPMB_SERVICE) || (lstnr == SSD_SERVICE))
 			__qseecom_disable_clk(CLK_QSEE);
 
 	}
@@ -6625,6 +6634,9 @@ static int qseecom_probe(struct platform_device *pdev)
 				rc = -EINVAL;
 				goto exit_destroy_hw_instance_list;
 			}
+		}
+		if (qseecom.appsbl_qseecom_support) {
+			qseecom.commonlib_loaded = true;
 		}
 	} else {
 		qseecom_platform_support = (struct msm_bus_scale_pdata *)

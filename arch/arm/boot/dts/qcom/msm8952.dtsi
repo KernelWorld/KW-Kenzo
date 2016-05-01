@@ -44,7 +44,11 @@
 			linux,reserve-contiguous-region;
 			linux,reserve-region;
 			linux,remove-completely;
+<<<<<<< HEAD
 			reg = <0x0 0x86c00000 0x0 0x05600000>;
+=======
+			reg = <0x0 0x86800000 0x0 0x06a00000>;
+>>>>>>> e5c1414bf5773bde1262c13d54964ac23bfaa927
 			label = "modem_mem";
 		};
 
@@ -52,7 +56,11 @@
 			linux,reserve-contiguous-region;
 			linux,reserve-region;
 			linux,remove-completely;
+<<<<<<< HEAD
 			reg = <0x0 0x8c200000 0x0 0x1700000>;
+=======
+			reg = <0x0 0x8d200000 0x0 0x1700000>;
+>>>>>>> e5c1414bf5773bde1262c13d54964ac23bfaa927
 			label = "reloc_mem";
 		};
 
@@ -1610,6 +1618,7 @@
 		qcom,qsee-ce-hw-instance = <0>;
 		qcom,disk-encrypt-pipe-pair = <2>;
 		qcom,support-fde;
+		qcom,appsbl-qseecom-support;
 		qcom,msm-bus,name = "qseecom-noc";
 		qcom,msm-bus,num-cases = <4>;
 		qcom,msm-bus,num-paths = <1>;
